@@ -7,12 +7,12 @@ highlighter: rouge
 logo: false
 paginate: 15
 baseurl: /kasper
-domain_name: "http://yourblog-domain.com"
+domain_name: "https://truemanburbank.github.io"
 google_analytics: "UA-XXXXXXXX-X"
 plugins: [jekyll-paginate]
 
 # Details for the RSS feed generator
-url: "https://truemanburbank.github.io""
+url: "https://truemanburbank.github.io"
 author: "야간 비행"
 
 # Disqus config
