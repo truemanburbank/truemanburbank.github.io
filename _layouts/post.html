@@ -1,92 +1,82 @@
 ---
-layout: default
-disqus: false
-archive: false
-post_class: post-template
+layout: base
 ---
 
-<header class="main-header post-head {% if page.cover %}" style="background-image: url({{ page.cover }}) {%else%}no-cover{% endif %}">
-    <nav class="main-nav {% if page.cover %} overlay {% endif %} clearfix">
-        <a class="back-button icon-arrow-left" href="{{'/' | relative_url }}">Home</a>
-        <a class="subscribe-button icon-feed" href="{{'feed.xml' | relative_url }}">Subscribe</a>
-    </nav>
-</header>
+{% include header.html type="post" %}
 
-<main class="content" role="main">
+<div class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}">
+  <div class="row">
+    <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
 
-    <article class="post">
+      {% if page.gh-repo %}
+        {% assign gh_split =  page.gh-repo | split:'/'  %}
+        {% assign gh_user =  gh_split[0]  %}
+        {% assign gh_repo =  gh_split[1]  %}
 
-        <header class="post-header">
-            <h1 class="post-title">{{ page.title }}</h1>
-            <section class="post-meta">
-                {% if page.categories.size > 0 %}
-                    {{ page.categories | array_to_sentence_string | prepend: 'on ' }}
-                {% endif %}
-                <time class="post-date" datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date_to_string }}</time>
-            </section>
-        </header>
+        <div id="header-gh-btns">
+          {% if page.gh-badge.size > 0 %}
+            {% for badge in page.gh-badge %}
+              {% case badge %}
+                {% when 'star'%}
+                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=star&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                {% when 'watch'%}
+                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=watch&v=2&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                {% when 'fork'%}
+                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&repo={{ gh_repo }}&type=fork&count=true" frameborder="0" scrolling="0" width="120px" height="20px"></iframe>
+                {% when 'follow'%}
+                  <iframe src="https://ghbtns.com/github-btn.html?user={{ gh_user }}&type=follow&count=true" frameborder="0" scrolling="0" width="220px" height="20px"></iframe>
+              {% endcase %}
+            {% endfor %}
+          {% endif %}
+        </div>
+      {% endif %}
 
-<!--         <header class="post-header">
-            <a id="blog-logo" href="{{site.url}}">
-                {% if site.logo %}
-                    <img src="{{site.logo}}" alt="{{ site.name }}" />
-                {% else %}
-                    <span class="blog-title">{{ site.name }}</span>
-                {%endif%}
-            </a>
-        </header> -->
+      {% if page.before-content %}
+        <div class="before-content">
+          {% for file in page.before-content %}
+            {% include {{ file }} %}
+          {% endfor %}
+        </div>
+      {% endif %}
 
-        <!-- <span class="post-meta">
-            <time datetime="{{ page.date | date:"%Y-%m-%d" }}">{{ page.date | date_to_string }}</time>
-            {% if page.categories.size > 0 %}
-                {{ page.categories | array_to_sentence_string | prepend: 'on ' }}
-            {% endif %}
-        </span> -->
+      <article role="main" class="blog-post">
+        {{ content }}
+      </article>
 
-        <!-- <h1 class="post-title">{{ page.title }}</h1> -->
+      {% if page.tags.size > 0 %}
+        <div class="blog-tags">
+          <span>Tags:</span>
+          {% for tag in page.tags %}
+            <a href="{{ '/tags' | relative_url }}#{{- tag -}}">{{- tag -}}</a>
+          {% endfor %}
+        </div>
+      {% endif %}
 
-        <section class="post-content">
-            {{content}}
-        </section>
+      {% if page.after-content %}
+        <div class="after-content">
+          {% for file in page.after-content %}
+            {% include {{ file }} %}
+          {% endfor %}
+        </div>
+      {% endif %}
 
-        {% if page.archive %}
-        <section class="archive">
-            <h5>Archive</h5>
-            <ul>
-                {% for post in site.posts %}
-                    <li><span>{{ post.date | date_to_string }}</span>  <a href="{{ post.url  | relative_url}}">{{ post.title }}</a></li>
-                {% endfor %}
-            </ul>
-        </section>
+      {% if page.social-share %}
+        {% include social-share.html %}
+      {% endif %}
+
+      <ul class="pagination blog-pager">
+        {% if page.previous.url %}
+        <li class="page-item previous">
+          <a class="page-link" href="{{ page.previous.url | relative_url }}" data-toggle="tooltip" data-placement="top" title="{{page.previous.title | strip_html | xml_escape}}">&larr; Previous Post</a>
+        </li>
         {% endif %}
-
-        <footer class="post-footer">
-            <!-- If we want to display author's name and bio -->
-            {% if site.author %}
-                <figure class="author-image">
-                    <a class="img" href="{{'/' | relative_url }}" style="background-image: url({{'/assets/images/profile.png' | relative_url}})">
-                    <span class="hidden">{{site.author}}'s Picture</span></a>
-                </figure>
-                <section class="author">
-                    <!-- Author Name -->
-                    <h4> {{ site.author }} </h4>
-                    <!-- Author Bio -->
-                    <p>
-                        Here goes the author description. You might want to place some links too in here
-                    </p>
-                </section>
-            {% endif %}
-
-            <!-- Share links section -->
-            {% include share.html %}
-
-            <!-- Disqus comments -->
-            {% if page.disqus %}
-                {% include disqus.html %}
-            {% endif %}
-
-        </footer>
-
-    </article>
-
-</main>
+        {% if page.next.url %}
+        <li class="page-item next">
+          <a class="page-link" href="{{ page.next.url | relative_url }}" data-toggle="tooltip" data-placement="top" title="{{page.next.title | strip_html | xml_escape}}">Next Post &rarr;</a>
+        </li>
+        {% endif %}
+      </ul>
+      {% include comments.html %}
+    </div>
+  </div>
+</div>

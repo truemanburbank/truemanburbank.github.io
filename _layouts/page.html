@@ -1,40 +1,31 @@
 ---
-layout: default
-post_class: post-template page-template
+layout: base
 ---
 
-<!-- <nav class="main-nav clearfix">
-    <a class="back-button icon-arrow-left" href="{{ site.baseurl }}">Home</a>
-    <a class="subscribe-button icon-feed" href="{{ 'feed.xml' | relative_url}}">Subscribe</a>
-</nav> -->
+{% include header.html type="page" %}
 
-<header class="main-header post-head {% if page.cover %}"
-    style="background-image: url({{ page.cover }}) {%else%}no-cover{% endif %}">
-    <nav class="main-nav {% if page.cover %} overlay {% endif %} clearfix">
-        <a class="back-button icon-arrow-left" href="{{'/' | relative_url }}">Home</a>
-        <a class="subscribe-button icon-feed" href="{{'feed.xml' | relative_url }}">Subscribe</a>
-    </nav>
-</header>
+<div class="{% if page.full-width %} container-fluid {% else %} container-md {% endif %}" role="main">
+  <div class="row">
+    <div class="{% if page.full-width %} col {% else %} col-xl-8 offset-xl-2 col-lg-10 offset-lg-1 {% endif %}">
+      {% if page.before-content %}
+        <div class="before-content">
+          {% for file in page.before-content %}
+            {% include {{ file }} %}
+          {% endfor %}
+        </div>
+      {% endif %}
 
+      {{ content }}
 
-<main class="content" role="main">
-    <article class="post">
-        <!-- <header class="post-header">
-            <a id="blog-logo" href="{{site.baseurl}}">
-                {% if site.logo %}
-                    <img src="{{site.logo}}" alt="{{ site.name }}" />
-                {% else %}
-                    <span class="blog-title">{{ site.name }}</span>
-                {%endif%}
-            </a>
-        </header> -->
+      {% if page.after-content %}
+        <div class="after-content">
+          {% for file in page.after-content %}
+            {% include {{ file }} %}
+          {% endfor %}
+        </div>
+      {% endif %}
 
-        <h1 class="post-title">{{ page.title }}</h1>
-
-        <section class="post-content">
-            {{content}}
-        </section>
-
-    </article>
-
-</main>
+      {% include comments.html %}
+    </div>
+  </div>
+</div>
