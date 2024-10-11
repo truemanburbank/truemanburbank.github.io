@@ -69,7 +69,9 @@ refactor: true
 
         <div class="col-md-{{ card_body_col }}">
           <div class="card-body d-flex flex-column">
-            <h1 class="card-title my-2 mt-md-0"><a href="{{ _category_url | relative_url }}"</a>{{ post.categories[1] }} {{ post.title }}</h1>
+            <h1 class="card-title my-2 mt-md-0">
+                <a href="{{ _category_url | relative_url }}">{{ post.categories[1] }}</a>
+                {{ post.title }}</h1>
             <div class="card-text content mt-0 mb-3">
               <p>
                 {% include no-linenos.html content=post.content %}
