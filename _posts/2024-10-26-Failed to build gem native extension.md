@@ -9,7 +9,7 @@ tags: [wdm, ruby]
 
 
 # 해결
-https://github.com/jekyll/jekyll/issues/9615
+[Github Issues](https://github.com/jekyll/jekyll/issues/9615)
 
 
 wdm이 ruby의 최신 버전에서 동작하지 않는 것이 원인이었다.  wdm은 성능과 자동 재생성을 개선할 수 있는 것이지만 Windows 사용자에게는 필수 사항은 아니기 때문에 제외시키기로 했다.
