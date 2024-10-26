@@ -1,5 +1,5 @@
 ---
-title: bundle update  ERROR: Failed to build gem native extension.
+title: bundle update Error Failed to build gem native extension.
 date: 2024-10-26
 categories: [Etc, TIL]
 tags: [wdm, ruby]
