@@ -62,3 +62,23 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v3
+        steps:
+      - name: Repository 체크아웃
+        uses: actions/checkout@v3
+
+      - name: ruby-build 설치에 필요한 패키지 설치
+        run: sudo apt-get update && sudo apt-get install -y build-essential libssl-dev libreadline-dev zlib1g-dev
+
+      - name: ruby-build 설치
+        run: git clone https://github.com/rbenv/ruby-build.git /tmp/ruby-build && sudo /tmp/ruby-build/install.sh
+
+      - name: Ruby 3.1 설치
+        run: |
+          sudo ruby-build 3.1.4 /opt/hostedtoolcache/Ruby/3.1.4/x64
+          sudo touch /opt/hostedtoolcache/Ruby/3.1.4/x64.complete
+
+      - name: Ruby 버전 설정
+        run: |
+          echo "/opt/hostedtoolcache/Ruby/3.1.4/x64/bin" >> $GITHUB_PATH
+          export PATH="/opt/hostedtoolcache/Ruby/3.1.4/x64/bin:$PATH"
+          ruby -v
